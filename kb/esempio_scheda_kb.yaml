@@ -1,0 +1,9 @@
+# Esempio inventato: una scheda per ogni documento idoneo, SD o User Story
+documento: "us_90.docx"
+tipo: "user_story"
+titolo: "User Story - Gestione Appuntamenti Tecnico"
+ambito: "Assistenza tecnica"
+idoneita_kb: "idoneo"
+user_story: [US-91, US-92, US-93]
+termini_glossario: ["fascia oraria", "intervento", "esito intervento"]
+parole_chiave: ["prenotazione appuntamento", "riprogrammazione", "notifica al cliente"]

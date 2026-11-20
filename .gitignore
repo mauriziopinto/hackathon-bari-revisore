@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__/
+.pytest_cache/
+*.pyc
+consegna/
+buste/busta_1/
+buste/busta_2/
+buste/busta_3/
+buste/aiuto/

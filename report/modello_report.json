@@ -1,0 +1,29 @@
+{
+  "documento": "us_90",
+  "tipo": "user_story",
+  "semaforo": "Rosso",
+  "idoneita_kb": "Non idoneo",
+  "non_conformita": [
+    {
+      "regola": "criteri_accettazione_presenti",
+      "gravita": "Bloccante",
+      "posizione": "US-92",
+      "chi": "programma",
+      "evidenza": "La storia non ha nessun criterio di accettazione"
+    },
+    {
+      "regola": "criteri_formato_dato_quando_allora",
+      "gravita": "Non bloccante",
+      "posizione": "US-91/CA-91.2",
+      "chi": "programma",
+      "evidenza": "\"Il tecnico vede l'appuntamento in agenda.\" non è nel formato Dato... quando... allora..."
+    },
+    {
+      "regola": "criteri_misurabili",
+      "gravita": "Bloccante",
+      "posizione": "US-93/CA-93.2",
+      "chi": "kiro",
+      "evidenza": "\"allora il tecnico riceve l'appuntamento in pochi minuti\": nessuna soglia misurabile"
+    }
+  ]
+}

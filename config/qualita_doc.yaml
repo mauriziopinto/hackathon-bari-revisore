@@ -1,0 +1,20 @@
+# Regole della checklist di qualità documentale.
+# SD e User Story sono documenti indipendenti: ognuno ha il suo semaforo e la sua idoneità alla KB.
+
+semaforo:
+  rosso:  { condizione: "almeno una non conformità bloccante", kb: "non idoneo" }
+  giallo: { condizione: "solo non conformità non bloccanti",   kb: "idoneo con riserva" }
+  verde:  { condizione: "nessuna non conformità",              kb: "idoneo" }
+
+sd:
+  sezioni_obbligatorie:
+    - { nome: "Scopo",     bloccante: true }
+    - { nome: "Requisiti", bloccante: true }
+    - { nome: "Ambiente",  bloccante: false }
+    - { nome: "Glossario", bloccante: false }
+
+user_story:
+  formato_come_voglio_affinche:     { bloccante: false }
+  criteri_accettazione_presenti:    { bloccante: true }
+  criteri_formato_dato_quando_allora: { bloccante: false }
+  criteri_misurabili:               { bloccante: true, tipo: giudizio }
