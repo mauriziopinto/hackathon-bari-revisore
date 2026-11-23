@@ -202,7 +202,7 @@ User Story:
 |--------|----------------|--------------|------------------|
 | `formato_come_voglio_affinche` | La storia dichiara ruolo, azione e beneficio: "Come..., voglio..., affinché..." | Non bloccante | Programma |
 | `criteri_accettazione_presenti` | La storia ha almeno un criterio di accettazione | Bloccante | Programma |
-| `criteri_formato_dato_quando_allora` | Ogni criterio è nel formato Given/When/Then, in italiano: "Dato..., quando..., allora..." | Non bloccante | Programma |
+| `criteri_formato_dato_quando_allora` | Ogni criterio è nel formato Given/When/Then, in italiano: "Dato..., quando..., allora...". Il criterio può cominciare con Dato, Data, Dati o Date, secondo la parola che segue ("Dato un tecnico...", "Data una fascia oraria..."): sono corrette tutte e quattro | Non bloccante | Programma |
 | `criteri_misurabili` | L'esito di ogni criterio è un valore, una soglia o un risultato che un tester può osservare | Bloccante | Kiro, con la skill del pomeriggio |
 
 Un criterio può essere nel formato giusto e avere un esito vago. "Allora il tecnico riceve l'appuntamento in pochi minuti" rispetta il formato ma non è misurabile; "entro 5 minuti" sì. Il programma non può accorgersene: per questo la regola la applica Kiro.

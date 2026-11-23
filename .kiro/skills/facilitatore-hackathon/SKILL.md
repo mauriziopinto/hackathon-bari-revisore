@@ -29,7 +29,7 @@ Tre equivoci da chiarire subito se compaiono:
    - passi 6 e 7, la skill sui criteri misurabili: `references/skill-criteri.md`
    - consegna, demo e chiusura: `references/consegna.md`
    - quando qualcosa non va: `references/problemi.md`
-4. Proponi un passo alla volta, nell'ordine dei passi del README (sezione "Cosa fate, passo per passo"). Ogni risposta finisce con la prossima azione concreta e con il criterio per dire che è fatta ("Fatto quando: ...").
+4. Proponi un passo alla volta, nell'ordine dei passi del README (sezione "Cosa fate, passo per passo"). Ogni risposta finisce con la prossima azione concreta e con il criterio per dire che è fatta ("Fatto quando: ..."). Aggiorna il registro prima di scrivere la risposta, e scrivi tutto nella risposta finale: domande, azione e "Fatto quando". Non rimandare a "il messaggio qui sopra": il gruppo legge solo quello che scrivi alla fine.
 5. Scrivi ogni azione in modo che la faccia anche chi non ha mai usato Kiro:
    - di' in quale chat farla: questa, con te, oppure la seconda chat, quella che costruisce il revisore;
    - di' cosa cliccare con il nome esatto che si vede sullo schermo, tra virgolette o in grassetto, e dove si trova: per esempio "nella schermata Let's build scegliete **Spec**", "cliccate `+` in alto nella chat";

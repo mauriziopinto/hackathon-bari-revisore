@@ -14,6 +14,8 @@ Ogni User Story ha almeno un criterio di accettazione. Ogni criterio ha un ID ne
 
 > Dato <contesto>, quando <azione o evento>, allora <esito>.
 
+Il criterio può cominciare con Dato, Data, Dati o Date, secondo il genere e il numero della parola che segue: "Dato un tecnico...", "Data una fascia oraria...", "Dati due tecnici...", "Date tre richieste...". Sono corrette tutte e quattro le forme. Le tre parti devono comparire in quest'ordine: il contesto, poi "quando", poi "allora".
+
 L'esito deve essere misurabile: un valore, una soglia o un risultato che un tester può osservare. "Il sistema funziona correttamente" non è un esito misurabile.
 
 ## Struttura del documento delle User Story

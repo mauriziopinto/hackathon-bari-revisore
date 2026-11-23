@@ -28,6 +28,7 @@ Quando il gruppo ti dice che `requirements.md` è pronto, leggilo tu e controlla
 - le gravità si leggono dal file `config/qualita_doc.yaml` e non sono scritte nel codice;
 - la regola `criteri_misurabili` non la applica il programma: la applica la skill del pomeriggio;
 - come si riconoscono una sezione della SD, una storia e un criterio di accettazione;
+- che un criterio può cominciare con Dato, Data, Dati o Date, e sono tutte forme corrette: un programma che cerca solo "Dato" segnala come sbagliati criteri giusti;
 - quando una sezione è "vuota" e quando "manca";
 - il formato della posizione: `SD/<Sezione>`, `US-nn`, `US-nn/CA-nn.m`;
 - come si calcolano il semaforo e l'idoneità alla KB;
