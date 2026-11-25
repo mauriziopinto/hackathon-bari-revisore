@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hackathon QE&amp;TA con Kiro, Bari: apertura</title>
+<style>
+  :root{
+    --bg:#0b1626; --bg2:#0f1f36; --panel:#15273f; --panel2:#1b3150;
+    --ink:#eef3f9; --muted:#9db2c9; --accent:#46a6ff; --accent2:#37d39b;
+    --warn:#ffb454; --red:#ff7a7a; --line:#274058; --line2:#33526f; --code:#08111f;
+    --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%}
+  body{background:radial-gradient(1200px 800px at 70% -10%, #16304f 0%, var(--bg) 60%); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; overflow:hidden}
+  .progress{position:fixed; top:0; left:0; height:3px; width:0; background:linear-gradient(90deg,var(--accent),var(--accent2)); z-index:30; transition:width .25s ease}
+  .topbar{position:fixed; top:0; left:0; right:0; height:46px; display:flex; align-items:center; justify-content:space-between; padding:0 22px; font-size:13px; color:var(--muted); z-index:20}
+  .topbar .brand{font-weight:600; color:var(--ink)} .topbar .brand b{color:var(--accent)}
+  .topbar .meta span{margin-left:18px}
+  .deck{position:fixed; inset:46px 0 42px 0; display:flex; align-items:center; justify-content:center; padding:18px 44px}
+  .slide{display:none; width:min(1150px,100%); max-height:100%; overflow:auto; flex-direction:column; gap:13px; animation:fade .32s ease}
+  .slide.active{display:flex}
+  @keyframes fade{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+
+  .kicker{color:var(--accent); font-size:13px; letter-spacing:.16em; text-transform:uppercase; font-weight:700}
+  h1.headline{font-size:38px; line-height:1.14; font-weight:740; letter-spacing:-.01em}
+  .lead{font-size:20px; color:var(--muted); line-height:1.5}
+
+  ul{list-style:none; display:flex; flex-direction:column; gap:10px}
+  li{font-size:19px; line-height:1.45; padding-left:27px; position:relative}
+  li::before{content:""; position:absolute; left:3px; top:9px; width:9px; height:9px; border-radius:3px; background:var(--accent); transform:rotate(45deg)}
+  li.ok::before{background:var(--accent2)} li.warn::before{background:var(--warn)} li.bad::before{background:var(--red)}
+
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:15px}
+  .cols.three{grid-template-columns:repeat(3,1fr)}
+  .card{background:linear-gradient(180deg,var(--panel),var(--bg2)); border:1px solid var(--line); border-radius:16px; padding:18px 19px}
+  .card h3{font-size:16px; color:var(--accent); margin-bottom:10px}
+  .card.alt h3{color:var(--accent2)} .card.bad h3{color:var(--red)} .card.amb h3{color:var(--warn)}
+  .card ul li{font-size:16.5px} .card ul li::before{top:8px; width:7px; height:7px}
+  .card p{font-size:16.5px; line-height:1.5; color:var(--muted)}
+  .pill{display:inline-flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--line2); border-radius:999px; padding:7px 15px; font-size:14px; color:var(--muted); width:fit-content}
+  table{border-collapse:collapse; width:100%; font-size:15.5px; border-radius:12px; overflow:hidden}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:left}
+  th{background:var(--panel2); color:var(--accent); font-weight:600} td{background:var(--bg2)}
+  .svg-wrap{background:linear-gradient(180deg,var(--panel),var(--bg2)); border:1px solid var(--line); border-radius:16px; padding:14px}
+
+  .title-slide{align-items:flex-start; gap:14px}
+  .title-slide .eyebrow{color:var(--accent); font-size:14px; letter-spacing:.18em; text-transform:uppercase; font-weight:700}
+  .title-slide h1{font-size:54px; line-height:1.08; font-weight:780; letter-spacing:-.02em}
+  .title-slide .sub{font-size:23px; color:var(--muted)}
+
+  .grid{display:grid; grid-template-columns:1.05fr .95fr; gap:15px; align-items:start}
+  .win{background:#0a1322; border:1px solid var(--line); border-radius:13px; overflow:hidden; width:100%}
+  .win-bar{display:flex; align-items:center; gap:7px; padding:8px 13px; background:#0e1b30; border-bottom:1px solid var(--line); font-size:12px; color:var(--muted)}
+  .dot{width:10px; height:10px; border-radius:50%; display:inline-block}
+  .dot.r{background:#ff5f57} .dot.y{background:#febc2e} .dot.g{background:#28c840}
+  .win-title{margin-left:8px; font-family:var(--mono)}
+  .win-body{padding:13px 15px}
+  .who{font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; margin:0 0 5px}
+  .who.tu{color:var(--accent)} .who.kiro{color:var(--accent2)}
+  .bubble{background:#11203a; border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:8px; padding:10px 12px; font-size:15px; line-height:1.5}
+  .bubble.kiro{border-left-color:var(--accent2)}
+  .bubble + .who{margin-top:12px}
+  .mono{font-family:var(--mono)}
+  .spiega{background:#0e1c33; border:1px solid var(--line); border-radius:11px; padding:14px 16px}
+  .spiega h4{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:9px; font-weight:700}
+  .spiega p{font-size:15.5px; line-height:1.55; color:#cdd9e6; margin-bottom:8px}
+  .spiega p:last-child{margin-bottom:0}
+  .spiega ul{gap:8px}
+  .spiega li{font-size:15.5px; line-height:1.45; padding-left:22px; color:#cdd9e6}
+  .spiega li::before{top:8px; width:7px; height:7px; background:var(--accent2)}
+  .spiega b{color:#eaf3ff}
+
+  pre.code{font-family:var(--mono); background:var(--code); border:1px solid var(--line); border-radius:12px; padding:14px 16px; font-size:13.5px; line-height:1.5; color:#cfe0f0; white-space:pre; overflow:auto}
+  .k{color:#5fb0ff; font-weight:600} .s{color:#5fd6a6} .c{color:#6f88a0} .e{color:var(--warn); font-weight:600}
+
+  .aha{display:flex; gap:10px; align-items:baseline; background:#11203a; border:1px solid var(--line2); color:var(--muted); border-radius:10px; padding:11px 16px; font-size:16.5px; line-height:1.45}
+  .aha b{color:var(--ink); white-space:nowrap}
+
+  .notes{display:none; margin-top:4px; background:#081120; border:1px solid var(--line); border-left:3px solid var(--warn); border-radius:10px; padding:12px 16px; color:var(--muted); font-size:14px; line-height:1.5}
+  body.show-notes .slide.active .notes{display:block}
+  .botbar{position:fixed; bottom:0; left:0; right:0; height:42px; display:flex; align-items:center; justify-content:space-between; padding:0 22px; font-size:12px; color:var(--muted); z-index:20}
+  .botbar a{color:var(--accent); text-decoration:none}
+  kbd{background:var(--panel); border:1px solid var(--line2); border-radius:5px; padding:2px 7px; font-size:11px}
+  text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<div class="topbar">
+  <div class="brand">Hackathon QE&amp;TA con Kiro &middot; <b>Fastweb + Vodafone</b></div>
+  <div class="meta"><span id="time"></span><span id="counter"></span></div>
+</div>
+
+<div class="deck">
+<style>
+  .sem{display:inline-block; padding:3px 11px; border-radius:999px; font-weight:700; font-size:14px; letter-spacing:.04em; white-space:nowrap}
+  .sem.r{background:#4a1d24; color:#ff9a9a; border:1px solid #ff7a7a}
+  .sem.g{background:#4a3a14; color:#ffd27a; border:1px solid #ffb454}
+  .sem.v{background:#123d2e; color:#7ff0c0; border:1px solid #37d39b}
+  .small{font-size:15px; color:var(--muted); line-height:1.5}
+  td.ora{white-space:nowrap; color:var(--accent); font-weight:600}
+  .crit td:first-child{white-space:nowrap; color:var(--accent2); font-weight:700}
+  .chi{white-space:nowrap; font-weight:600}
+  .chi.p{color:var(--accent)} .chi.k{color:var(--accent2)}
+  .steps{display:flex; flex-direction:column; gap:10px}
+  .step{display:grid; grid-template-columns:150px 1fr; gap:16px; align-items:baseline; background:linear-gradient(180deg,var(--panel),var(--bg2)); border:1px solid var(--line); border-radius:12px; padding:12px 18px}
+  .step .quando{color:var(--accent); font-weight:700; font-size:16px}
+  .step .quando span{display:block; color:var(--muted); font-weight:500; font-size:14px}
+  .step p{font-size:17px; line-height:1.5}
+  .step p b{color:var(--ink)}
+  .report{font-family:var(--mono); font-size:14.5px; line-height:1.65; color:#cfe0f0}
+  .report .r{color:var(--muted)}
+  .esempio{border-left:3px solid var(--line2); padding:6px 12px; margin:6px 0; font-size:15.5px; line-height:1.5; color:#cdd9e6}
+  .esempio.ko{border-left-color:var(--red)} .esempio.ok{border-left-color:var(--accent2)}
+  details.es{margin-top:5px}
+  details.es summary{cursor:pointer; color:var(--accent2); font-size:13px; font-weight:600; list-style:none; user-select:none}
+  details.es summary::-webkit-details-marker{display:none}
+  details.es summary::before{content:"\25B8  "} details.es[open] summary::before{content:"\25BE  "}
+  details.es .esempio{font-size:14px; margin:6px 0 2px}
+  details.es .esempio b{color:var(--ink)}
+  .slide:has(details.es[open]) .aha{display:none}
+  .slide:has(details.es[open]) td{padding-top:6px; padding-bottom:6px}
+  .slide:has(details.es[open]) h1.headline{font-size:32px}
+  ol.passi{list-style:none; counter-reset:p; display:flex; flex-direction:column; gap:10px}
+  ol.passi li{counter-increment:p; padding-left:36px; font-size:16.5px; line-height:1.45; position:relative}
+  ol.passi li::before{content:counter(p); position:absolute; left:0; top:1px; width:24px; height:24px; border-radius:50%; background:var(--panel2); border:1px solid var(--accent); color:var(--accent); font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; transform:none}
+  ol.passi li b{color:var(--ink)}
+  .card.alt ol.passi li::before{border-color:var(--accent2); color:var(--accent2)}
+  .bubble.tu{border-left-color:var(--accent)}
+  .bubble .mono{font-size:13.5px}
+  .rimando{font-size:14px; color:var(--muted); margin-top:10px}
+</style>
+
+  <!-- 1 -->
+  <section class="slide title-slide">
+    <div class="eyebrow">26 novembre &middot; Bari &middot; Hackathon QE&amp;TA con Kiro</div>
+    <h1>Oggi ogni gruppo costruisce un revisore automatico per SD e User Story</h1>
+    <div class="sub">Gli date un documento Word, e vi dice se può entrare nella Knowledge Base e quali problemi ha</div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <div class="kicker">Perché siamo qui</div>
+    <h1 class="headline">Oggi SD e User Story si rivedono a mano, e due revisori possono arrivare a conclusioni diverse</h1>
+    <div class="cols">
+      <div class="card bad">
+        <h3>Cosa si trova più spesso</h3>
+        <ul>
+          <li>Sezioni della SD mancanti o vuote.</li>
+          <li>User Story senza criteri di accettazione.</li>
+          <li>Criteri che non si possono verificare, come "il sistema funziona correttamente".</li>
+        </ul>
+      </div>
+      <div class="card amb">
+        <h3>Cosa costa</h3>
+        <ul>
+          <li>Tempo, a ogni revisione.</li>
+          <li>Problemi scoperti tardi, quando si arriva ai test.</li>
+          <li>Documenti che non si possono riusare.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="aha"><b>La Knowledge Base:</b> <span>Fastweb vuole costruire un archivio di documenti buoni da riusare, la Knowledge Base (KB). Ci entra un documento senza problemi bloccanti. Se ha solo problemi non bloccanti, ci entra con riserva.</span></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide">
+    <div class="kicker">Il goal</div>
+    <h1 class="headline">Alle 17:30 il vostro revisore legge un documento Word e scrive un report come questo</h1>
+    <div class="grid">
+      <div class="win">
+        <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">report/us_90.md &middot; esempio inventato</span></div>
+        <div class="win-body report">
+          Documento: us_90.docx (User Story)<br>
+          Semaforo: <span class="sem r">ROSSO</span> &nbsp;non entra nella KB<br><br>
+          Problemi trovati:<br>
+          <span class="r">1.</span> US-92: nessun criterio di accettazione.<br>&nbsp;&nbsp;&nbsp;Bloccante.<br>
+          <span class="r">2.</span> US-91, criterio CA-91.2: non è scritto<br>&nbsp;&nbsp;&nbsp;come "Dato..., quando..., allora...".<br>&nbsp;&nbsp;&nbsp;Non bloccante.<br>
+          <span class="r">3.</span> US-93, criterio CA-93.2: "in pochi minuti"<br>&nbsp;&nbsp;&nbsp;non si può verificare. Bloccante.
+        </div>
+      </div>
+      <div class="card">
+        <h3>Il semaforo</h3>
+        <table>
+          <tr><td><span class="sem r">ROSSO</span></td><td>Almeno un problema bloccante. Il documento non entra nella KB.</td></tr>
+          <tr><td><span class="sem g">GIALLO</span></td><td>Solo problemi non bloccanti. Entra con riserva.</td></tr>
+          <tr><td><span class="sem v">VERDE</span></td><td>Nessun problema. Entra.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="aha"><b>Il punto:</b> <span>ogni problema dice dove sta, cioè la sezione della SD oppure la storia e il criterio. Chi corregge il documento sa subito cosa fare.</span></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <div class="kicker">Cosa controlla il revisore</div>
+    <h1 class="headline">Le regole della checklist sono cinque: quattro riguardano la forma, una il contenuto dei criteri</h1>
+    <table>
+      <tr><th>Documento</th><th>Regola</th><th>Se non è rispettata</th><th>Chi la controlla</th></tr>
+      <tr><td>SD</td><td>Le sezioni Scopo, Requisiti, Ambiente e Glossario ci sono e non sono vuote<details class="es"><summary>Esempio</summary><div class="esempio ok"><b>Va bene:</b> sotto il titolo "Scopo" c'è il testo che spiega l'obiettivo dell'iniziativa.</div><div class="esempio ko"><b>Non va bene:</b> il titolo "Glossario" c'è, ma sotto non c'è niente. Il problema è non bloccante: il documento al massimo è giallo. Se fosse vuoto lo Scopo, sarebbe rosso.</div></details></td><td>Bloccante per Scopo e Requisiti, non bloccante per le altre due</td><td class="chi p">il programma</td></tr>
+      <tr><td>User Story</td><td>Ogni storia è scritta come "Come..., voglio..., affinché..."<details class="es"><summary>Esempio</summary><div class="esempio ok"><b>Va bene:</b> "Come tecnico in campo, voglio vedere sul telefono gli appuntamenti del giorno, affinché possa organizzare il giro delle visite." Dice chi la vuole, cosa vuole e perché.</div><div class="esempio ko"><b>Non va bene:</b> "Il sistema mostra al tecnico gli appuntamenti del giorno." Si capisce cosa fa il sistema, ma non chi lo chiede né a cosa serve.</div></details></td><td>Non bloccante</td><td class="chi p">il programma</td></tr>
+      <tr><td>User Story</td><td>Ogni storia ha almeno un criterio di accettazione<details class="es"><summary>Esempio</summary><div class="esempio ok"><b>Va bene:</b> sotto la storia c'è la voce "Criteri di accettazione" con almeno un criterio, per esempio CA-12.1.</div><div class="esempio ko"><b>Non va bene:</b> la storia US-13 ha il suo testo, e sotto non ha nessun criterio. Così nessuno sa quando la storia è realizzata.</div></details></td><td>Bloccante</td><td class="chi p">il programma</td></tr>
+      <tr><td>User Story</td><td>Ogni criterio è scritto come "Dato..., quando..., allora..."<details class="es"><summary>Esempio</summary><div class="esempio ok"><b>Va bene:</b> "CA-12.1 Dato un tecnico con tre appuntamenti, quando apre l'agenda, allora vede i tre appuntamenti in ordine di orario." Va bene anche un criterio che comincia con Data, Dati o Date, per esempio "Data una fascia oraria libera...".</div><div class="esempio ko"><b>Non va bene:</b> "CA-12.2 L'agenda mostra gli appuntamenti in ordine di orario." Si può verificare, ma non dice da quale situazione si parte né quale azione fa scattare il risultato.</div></details></td><td>Non bloccante</td><td class="chi p">il programma</td></tr>
+      <tr><td>User Story</td><td>Ogni criterio ha un esito che un tester può verificare<details class="es"><summary>Esempio</summary><div class="esempio ok"><b>Va bene:</b> "...quando il cliente conferma la fascia oraria, allora il tecnico riceve l'appuntamento entro 5 minuti." Il tester misura il tempo e dice sì o no.</div><div class="esempio ko"><b>Non va bene:</b> "...quando il cliente conferma la fascia oraria, allora il tecnico riceve l'appuntamento in pochi minuti." Quanti minuti? Il tester non può dire se il criterio è rispettato.</div></details></td><td>Bloccante</td><td class="chi k">Kiro</td></tr>
+    </table>
+    <div class="aha"><b>Da sapere:</b> <span>SD e User Story sono documenti separati, e ognuno ha il suo report e il suo semaforo. Le regole e la loro gravità sono scritte nel file config/qualita_doc.yaml.</span></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <div class="kicker">Due parti</div>
+    <h1 class="headline">Le prime quattro regole le controlla un programma. L'ultima la controlla Kiro, leggendo ogni criterio</h1>
+    <div class="cols">
+      <div class="card">
+        <h3>La mattina: il programma</h3>
+        <ul>
+          <li>Lo scrivete con Kiro, in Python.</li>
+          <li>Controlla la forma: una sezione è vuota o no, una storia ha criteri o no, un criterio è scritto come "Dato..., quando..., allora..." o no.</li>
+          <li>Con lo stesso documento dà sempre la stessa risposta, e si può testare.</li>
+        </ul>
+      </div>
+      <div class="card alt">
+        <h3>Il pomeriggio: Kiro</h3>
+        <ul>
+          <li>Kiro legge ogni criterio di accettazione e decide se un tester può verificarne l'esito.</li>
+        </ul>
+        <div class="esempio ko">"...allora il tecnico riceve l'appuntamento in pochi minuti." Quanti minuti? Non si può verificare.</div>
+        <div class="esempio ok">"...allora il tecnico riceve l'appuntamento entro 5 minuti." Si può verificare.</div>
+        <ul>
+          <li>Come decidere glielo spiegate voi, in una skill: un file di istruzioni con esempi giusti e sbagliati.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="aha"><b>Perché non fa tutto Kiro:</b> <span>per controllare la forma basta un programma, che risponde sempre uguale. Kiro serve dove bisogna capire cosa vuol dire una frase.</span></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide">
+    <div class="kicker">Kiro</div>
+    <h1 class="headline">Kiro è un assistente che lavora sui file del vostro progetto: gli dite cosa volete, e lui scrive, prova e corregge</h1>
+    <div class="grid">
+      <div class="card">
+        <h3>Dove lo usate</h3>
+        <ul>
+          <li>Kiro IDE nel browser: un editor con la chat di Kiro a lato.</li>
+          <li>Oppure kiro-cli, nel terminale dello stesso IDE.</li>
+          <li>È già installato, con il repository aperto.</li>
+          <li>Prima di molte operazioni vi chiede conferma: leggete cosa vuole fare prima di dire sì.</li>
+        </ul>
+      </div>
+      <table>
+        <tr><th>Cosa userete</th><th>Cos'è</th><th>Quando</th></tr>
+        <tr><td><b>Spec</b></td><td>Kiro scrive requisiti, design e lista dei task prima del codice</td><td class="ora">10:15</td></tr>
+        <tr><td><b>Hook</b></td><td>Un'azione automatica: rilancia i test ogni volta che Kiro cambia il codice</td><td class="ora">11:00</td></tr>
+        <tr><td><b>Skill</b></td><td>Istruzioni con esempi che Kiro segue quando legge i criteri</td><td class="ora">14:30</td></tr>
+        <tr><td><b>Facilitatore</b></td><td>Un agente che vi dice a che punto siete e qual è il passo successivo</td><td class="ora">tutto il giorno</td></tr>
+      </table>
+    </div>
+    <div class="aha"><b>Come usarlo:</b> <span>come un collega bravo ma nuovo. Ditegli cosa volete e perché, guardate cosa fa, correggetelo. Più contesto gli date, meno indovina.</span></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide">
+    <div class="kicker">La giornata</div>
+    <h1 class="headline">La mattina costruite il programma, il pomeriggio la skill, e alla fine vedete quanto funziona il revisore</h1>
+    <table>
+      <tr><th>Ora</th><th>Cosa fate</th></tr>
+      <tr><td class="ora">9:30</td><td>Queste slide</td></tr>
+      <tr><td class="ora">10:00</td><td>Formate il gruppo, aprite l'ambiente e il facilitatore</td></tr>
+      <tr><td class="ora">10:15</td><td>Con Kiro scrivete la spec del programma</td></tr>
+      <tr><td class="ora">11:00</td><td>Kiro scrive codice e test; il programma scrive il report degli 8 documenti</td></tr>
+      <tr><td class="ora">13:00</td><td>Pranzo</td></tr>
+      <tr><td class="ora">14:00</td><td>Busta 1: confrontate i vostri report con i risultati attesi e correggete il programma</td></tr>
+      <tr><td class="ora">14:30</td><td>Scrivete la skill e la provate</td></tr>
+      <tr><td class="ora">15:30</td><td>Busta 2: 6 documenti nuovi, un solo giro</td></tr>
+      <tr><td class="ora">16:00</td><td>Busta 3: i numeri finali. Poi scaricate il lavoro e preparate la demo</td></tr>
+      <tr><td class="ora">16:45</td><td>Demo, 5 minuti per gruppo</td></tr>
+      <tr><td class="ora">17:10</td><td>Pietro e Giuseppe dicono quali idee si portano avanti</td></tr>
+    </table>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide">
+    <div class="kicker">Prima di cominciare &middot; 10:00</div>
+    <h1 class="headline">Tenete aperte due chat di Kiro: una con il facilitatore, una per costruire il revisore</h1>
+    <div class="grid">
+      <div class="card">
+        <h3>Cosa fate</h3>
+        <ol class="passi">
+          <li>Aprite la chat di Kiro con <b>Ctrl+L</b> (su Mac <b>Cmd+L</b>), oppure con l'icona della chat in alto a destra.</li>
+          <li>In fondo alla chat cliccate <b>Default</b>, il nome dell'agente. Nell'elenco, sotto <b>Workspace</b>, scegliete <b>facilitatore</b>.</li>
+          <li>Scrivete "Siamo il gruppo 2", con il vostro numero. Il facilitatore vi dice il primo passo.</li>
+          <li>Cliccate <b>+</b> in alto nella chat: si apre una seconda sessione, con la schermata "Let's build". Qui costruite il revisore.</li>
+        </ol>
+      </div>
+      <div class="card alt">
+        <h3>Dove trovate i passi</h3>
+        <ul>
+          <li>Tutti i passi della giornata sono nel README, nella sezione "Cosa fate, passo per passo".</li>
+          <li>Per ogni passo: dove cliccare, il testo da incollare in chat e quando avete finito.</li>
+          <li>Il facilitatore vi dà gli stessi passi, uno alla volta.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="aha"><b>Perché due chat:</b> <span>il facilitatore resta sempre aperto e sa a che punto siete. L'altra chat lavora sul codice, e non si mescola con le domande al facilitatore.</span></div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide">
+    <div class="kicker">Passo 1 &middot; 10:15</div>
+    <h1 class="headline">Passo 1: Kiro scrive i requisiti del programma, a partire dalle regole del README</h1>
+    <div class="grid">
+      <div class="card">
+        <h3>Cosa fate, nella seconda chat</h3>
+        <ol class="passi">
+          <li>Nella schermata "Let's build" scegliete <b>Spec</b>, poi <b>Feature</b>.</li>
+          <li>Incollate il testo del passo 1 dal README e premete Invio. Quando Kiro chiede da dove partire, scegliete <b>Requirements-First</b>.</li>
+          <li>Kiro scrive <span class="mono">requirements.md</span> in <span class="mono">.kiro/specs/</span>. Leggetelo.</li>
+          <li>Controllate che ci siano le quattro regole di forma, la gravità letta dal file YAML e il formato del report. Se manca qualcosa, chiedetelo in chat.</li>
+        </ol>
+      </div>
+      <div class="win"><div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">chat di Kiro</span></div><div class="win-body"><div class="who tu">Voi</div><div class="bubble tu">Voglio un programma Python che faccia da revisore automatico dei documenti Word nella cartella dataset/ ... applica le quattro regole di forma descritte nel README ... legge la gravità di ogni regola dal file config/qualita_doc.yaml ... scrive in report/ un file .md e un file .json ...<div class="rimando">Il testo completo da incollare è nel README, passo 1.</div></div></div></div>
+    </div>
+    <div class="aha"><b>Fatto quando:</b> <span>requirements.md contiene le quattro regole di forma, la gravità letta dal file YAML e il formato del report.</span></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide">
+    <div class="kicker">Passo 2 &middot; 10:30</div>
+    <h1 class="headline">Passo 2: Kiro vi fa domande sulle regole, voi rispondete, poi Kiro scrive design e task</h1>
+    <div class="grid">
+      <div class="card">
+        <h3>Cosa fate</h3>
+        <ol class="passi">
+          <li>Scegliete <b>Analyze Requirements</b>: in chat, tra le opzioni per continuare, oppure nel menu <b>Continue</b> dell'editor, accanto a <b>Proceed to Design</b>.</li>
+          <li>Aspettate qualche minuto: in chat arrivano le domande di Kiro, una alla volta, ognuna con delle soluzioni proposte.</li>
+          <li>Per ogni domanda scegliete una soluzione o scrivete la vostra risposta. Kiro aggiorna <span class="mono">requirements.md</span>.</li>
+          <li>Scegliete <b>Proceed to Design</b>: Kiro scrive <span class="mono">design.md</span> e poi <span class="mono">tasks.md</span>, la lista dei lavori da fare.</li>
+        </ol>
+      </div>
+      <div class="win"><div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">Analyze Requirements &middot; esempio inventato</span></div><div class="win-body"><div class="who kiro">Kiro</div><div class="bubble kiro">Il requisito 3 dice che una sezione vuota è un problema. Una sezione che contiene solo il titolo e una riga vuota conta come vuota?</div></div></div>
+    </div>
+    <div class="aha"><b>Fatto quando:</b> <span>tutte le domande hanno una risposta, e ci sono requirements.md, design.md e tasks.md. Le domande sulla checklist ditele al facilitatore: le annota per il QA.</span></div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide">
+    <div class="kicker">Passo 3 &middot; 11:00</div>
+    <h1 class="headline">Passo 3: Kiro scrive codice e test un task alla volta, e un hook rilancia i test da solo</h1>
+    <div class="grid">
+      <div class="card">
+        <h3>Cosa fate</h3>
+        <ol class="passi">
+          <li>Aprite <span class="mono">tasks.md</span> e cliccate sul primo task. Kiro lo esegue e lo segna come fatto. Poi passate al successivo.</li>
+          <li>Prima di creare file o lanciare comandi Kiro vi chiede conferma: leggete cosa vuole fare, poi approvate.</li>
+          <li>Per l'hook: nella barra laterale aprite la vista <b>Kiro</b>, sezione <b>Agent Hooks</b>, cliccate <b>+</b> e scegliete <b>Ask Kiro to create a hook</b>.</li>
+          <li>Scrivete la frase qui a destra. Kiro chiede conferma prima di salvare l'hook: è normale.</li>
+        </ol>
+      </div>
+      <div class="win"><div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">chat di Kiro</span></div><div class="win-body"><div class="who tu">Voi</div><div class="bubble tu">Crea un hook che lanci i test ogni volta che modifichi un file .py o il file config/qualita_doc.yaml.<div class="rimando">L'hook parte solo quando è Kiro a modificare un file, non quando lo modificate voi a mano.</div></div></div></div>
+    </div>
+    <div class="aha"><b>Fatto quando:</b> <span>i test passano, con almeno un test per ogni regola bloccante. È il checkpoint delle 11:00.</span></div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide">
+    <div class="kicker">Passo 4 &middot; 12:00</div>
+    <h1 class="headline">Passo 4: il programma scrive un report per ognuno degli 8 documenti, e voi li controllate</h1>
+    <div class="grid">
+      <div class="card">
+        <h3>Cosa fate</h3>
+        <ol class="passi">
+          <li>Scrivete in chat la frase qui a destra.</li>
+          <li>Nella cartella <span class="mono">report/</span> controllate che per ogni documento ci siano un file .md e un file .json.</li>
+          <li>Aprite due report e confrontateli con il documento Word: il problema c'è davvero, nel punto indicato?</li>
+          <li>Chiedete a Kiro di rendere bloccante il Glossario nel file YAML e di rifare girare il programma. Un documento con il Glossario vuoto diventa rosso. Poi fate rimettere il valore com'era.</li>
+        </ol>
+      </div>
+      <div class="win"><div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">chat di Kiro</span></div><div class="win-body"><div class="who tu">Voi</div><div class="bubble tu">Fai girare il programma su tutti i documenti di dataset/ e mostrami il semaforo di ognuno.</div></div></div>
+    </div>
+    <div class="aha"><b>Fatto quando:</b> <span>c'è un report per ognuno degli 8 documenti e i test passano. È il checkpoint delle 13:00.</span></div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide">
+    <div class="kicker">Le buste</div>
+    <h1 class="headline">Tre buste, da aprire all'ora indicata: i risultati attesi e i documenti nuovi</h1>
+    <p class="small">I <b>risultati attesi</b> sono, per ogni documento, il report che il revisore dovrebbe scrivere: il semaforo giusto e i problemi che il documento ha davvero, con il punto esatto. Una busta è uno zip protetto da password nella cartella <span class="mono">buste/</span>. La password la condivide Maurizio. La busta la aprite voi, dal terminale: <span class="mono">python3 strumenti/apri_busta.py 1</span></p>
+    <div class="cols three">
+      <div class="card"><h3>14:00 &middot; busta 1</h3><p>I risultati attesi sugli 8 documenti. Lo script <span class="mono">confronta.py</span> vi dice dove il revisore sbaglia, e lo correggete.</p></div>
+      <div class="card amb"><h3>15:30 &middot; busta 2</h3><p>6 documenti nuovi, 3 SD e 3 User Story, che nessuno ha mai visto. Fate girare il revisore una volta sola, senza correggerlo.</p></div>
+      <div class="card alt"><h3>16:00 &middot; busta 3</h3><p>I risultati attesi sui 6 documenti nuovi. <span class="mono">confronta.py nuovi</span> vi dà i numeri finali: quanto il revisore funziona su documenti che non conosceva.</p></div>
+    </div>
+    <div class="aha"><b>La regola:</b> <span>né voi né Kiro aprite una busta prima dell'ora. Se conoscete già i risultati attesi, il confronto non dice più niente.</span></div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide">
+    <div class="kicker">Passi 5 e 6 &middot; 14:00 e 14:30</div>
+    <h1 class="headline">Alle 14:00 correggete il programma con i risultati attesi, poi scrivete la skill</h1>
+    <div class="cols">
+      <div class="card">
+        <h3>Passo 5 &middot; 14:00 &middot; le correzioni</h3>
+        <ol class="passi">
+          <li>Quando Maurizio condivide la password: <span class="mono">python3 strumenti/apri_busta.py 1</span></li>
+          <li>Poi <span class="mono">python3 strumenti/confronta.py giornata</span>, e leggete la parte 1.</li>
+          <li>Per ogni problema nell'elenco "Mancate", chiedete a Kiro di correggere il programma, con il testo del README.</li>
+          <li>Rilanciate il confronto, finché c'è scritto "C4: raggiunto".</li>
+        </ol>
+      </div>
+      <div class="card alt">
+        <h3>Passo 6 &middot; 14:30 &middot; la skill</h3>
+        <ol class="passi">
+          <li>Chiedete a Kiro di creare la skill in <span class="mono">.kiro/skills/criteri-misurabili/</span>, con il testo del README.</li>
+          <li>In <span class="mono">references/regole.md</span> scrivete voi la regola: quando l'esito di un criterio si può verificare, e quando no.</li>
+          <li>Aggiungete almeno tre esempi sbagliati e tre giusti, <b>inventati da voi</b>.</li>
+          <li>Scrivete come segnalare il problema nel file JSON: regola, gravità, posizione e la frase esatta.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="aha"><b>Fatto quando:</b> <span>il confronto dice "C4: raggiunto", e la skill ha la regola e gli esempi.</span></div>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide">
+    <div class="kicker">Passi 7 e 8 &middot; 15:00, 15:30 e 16:00</div>
+    <h1 class="headline">Provate la skill e misuratela, poi fate girare il revisore una sola volta sui documenti nuovi</h1>
+    <div class="cols">
+      <div class="card">
+        <h3>Passo 7 &middot; 15:00 &middot; la prova della skill</h3>
+        <ol class="passi">
+          <li>Aprite una sessione nuova con <b>+</b>. Non sa niente di quello che avete detto prima: il risultato dipende solo dalla skill.</li>
+          <li>Scrivete <span class="mono">/criteri-misurabili</span> seguito dal testo del README: Kiro legge i criteri e aggiunge i problemi ai report.</li>
+          <li><span class="mono">confronta.py giornata</span>, parte 2: quanti criteri Kiro trova, quanti ne manca, quanti ne segnala in più.</li>
+          <li>Cambiate una cosa alla volta nella skill e rifate.</li>
+        </ol>
+      </div>
+      <div class="card alt">
+        <h3>Passo 8 &middot; 15:30 e 16:00 &middot; i documenti nuovi</h3>
+        <ol class="passi">
+          <li>Alle 15:30: <span class="mono">apri_busta.py 2</span>. I 6 documenti nuovi sono in <span class="mono">buste/busta_2/</span>.</li>
+          <li>Programma e skill una volta sola su quei documenti, senza correggere niente.</li>
+          <li>Alle 16:00: <span class="mono">apri_busta.py 3</span> e <span class="mono">confronta.py nuovi</span>. Scrivete i numeri, anche se peggiorano.</li>
+          <li><span class="mono">consegna.py</span> con il vostro numero, poi scaricate lo zip.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="aha"><b>Uguale per tutti:</b> <span>i quattro gruppi scrivono la stessa skill sugli stessi documenti. Così i numeri si confrontano, e la differenza la fanno le vostre scelte.</span></div>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide">
+    <div class="kicker">Quando avete finito</div>
+    <h1 class="headline">Avete finito quando il facilitatore ha visto queste sei prove</h1>
+    <table class="crit">
+      <tr><th></th><th>La prova</th></tr>
+      <tr><td>C1</td><td>La spec: requisiti, design e task in <span class="mono">.kiro/specs/</span></td></tr>
+      <tr><td>C2</td><td>I test passano, con almeno un test per ogni regola bloccante</td></tr>
+      <tr><td>C3</td><td>Un report per ognuno degli 8 documenti</td></tr>
+      <tr><td>C4</td><td>Alle 14:00 il programma trova tutti i problemi bloccanti, nessun documento rosso risulta verde, e il semaforo è giusto su almeno 6 documenti su 8</td></tr>
+      <tr><td>C5</td><td>La skill è scritta e misurata sugli 8 documenti</td></tr>
+      <tr><td>C6</td><td>Sui 6 documenti nuovi: un solo giro, e i numeri scritti</td></tr>
+    </table>
+    <div class="aha"><b>Per tutti:</b> <span>annotate le regole della checklist che vi sono sembrate ambigue o che non siete riusciti a controllare, e perché. Al QA servono quanto il codice.</span></div>
+  </section>
+
+  <!-- 17 -->
+  <section class="slide">
+    <div class="kicker">Chi vi aiuta</div>
+    <h1 class="headline">Un facilitatore dentro Kiro vi dice sempre qual è il passo successivo. Per tutto il resto ci sono Maurizio e Andrea</h1>
+    <div class="cols">
+      <div class="card alt">
+        <h3>Il facilitatore</h3>
+        <ul>
+          <li>Nella chat di Kiro scegliete l'agente "facilitatore" e scrivete "Siamo il gruppo 2".</li>
+          <li>Vi dice a che punto siete e cosa fare dopo, e tiene il registro del gruppo.</li>
+          <li>Vi aiuta con domande ed esempi, ma non scrive il revisore al posto vostro e non può aprire le buste.</li>
+          <li>Per costruire il revisore usate l'agente normale di Kiro.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Maurizio e Andrea</h3>
+        <ul>
+          <li>Maurizio Pinto, Senior Solutions Architect di AWS, conduce la giornata e condivide le password delle buste.</li>
+          <li>Andrea Soria, Technical Account Manager di AWS che segue Fastweb, è con lui tutto il giorno.</li>
+          <li>Alle 11:00, 13:00, 15:30 e 16:30 Maurizio chiama il checkpoint: ogni gruppo dice a che punto è.</li>
+          <li>Chiamate uno dei due per un problema di ambiente, o se siete fermi da più di 20 minuti.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 -->
+  <section class="slide">
+    <div class="kicker">Le regole del gioco</div>
+    <h1 class="headline">Cosa vale per tutta la giornata</h1>
+    <ul>
+      <li>Si lavora solo sui documenti del repository. Niente documenti reali: questi ambienti sono temporanei e fuori da Fastweb.</li>
+      <li>Il revisore non deve citare i nomi dei documenti: deve funzionare su qualunque documento, anche su quelli delle 15:30.</li>
+      <li>Le buste si aprono solo all'ora indicata.</li>
+      <li>Alle 16:00 scaricate il lavoro con <span class="mono">python3 strumenti/consegna.py</span> e il numero del gruppo: gli ambienti si chiudono dopo l'evento.</li>
+    </ul>
+    <div class="aha"><b>Il limite, detto subito:</b> <span>i documenti di oggi sono preparati apposta e più puliti di quelli veri. I numeri dicono se il metodo funziona; sui documenti veri si prova dopo, dentro Fastweb.</span></div>
+  </section>
+
+  <!-- 19 -->
+  <section class="slide">
+    <div class="kicker">Si parte</div>
+    <h1 class="headline">Si parte: aprite l'ambiente, aprite le due chat, e cominciate dal passo 1</h1>
+    <div class="cols three">
+      <div class="card"><h3>1</h3><p>Aprite l'ambiente nel browser: Kiro IDE è già aperto sul repository.</p></div>
+      <div class="card"><h3>2</h3><p>Nella prima chat scegliete l'agente "facilitatore" e scrivete "Siamo il gruppo 1" (o 2, 3, 4).</p></div>
+      <div class="card alt"><h3>3</h3><p>Con <b>+</b> aprite la seconda chat e seguite il passo 1 del README. Alle 11:00 c'è il primo checkpoint.</p></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="botbar">
+  <span><kbd>&larr;</kbd> <kbd>&rarr;</kbd> naviga &middot; <kbd>F</kbd> schermo intero</span>
+  <span>Fastweb Bari &middot; 26 novembre 2026</span>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let i = 0;
+  function show(n){
+    slides.forEach(s=>s.classList.remove('active'));
+    i = Math.max(0, Math.min(n, slides.length-1));
+    slides[i].classList.add('active');
+    document.getElementById('bar').style.width = ((i+1)/slides.length*100)+'%';
+    document.getElementById('counter').textContent = ' ' + (i+1) + ' / ' + slides.length;
+    document.getElementById('time').textContent = slides[i].dataset.time || '';
+    history.replaceState(null, '', '#' + (i+1));
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key===' ' && e.target.tagName==='SUMMARY') return;
+    if(e.key==='ArrowRight' || e.key===' ') show(i+1);
+    else if(e.key==='ArrowLeft') show(i-1);
+    else if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+  const h = parseInt(location.hash.slice(1), 10);
+  show(isNaN(h) ? 0 : h-1);
+</script>
+</body>
+</html>

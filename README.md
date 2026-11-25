@@ -177,6 +177,7 @@ Fatto quando: i numeri sono nel registro e lo zip è sul vostro computer.
 | `strumenti/` | `apri_busta.py` apre una busta, `confronta.py` calcola i numeri, `consegna.py` prepara lo zip del lavoro |
 | `registro/` | Il registro del gruppo, tenuto dal facilitatore |
 | `risultati/` | I confronti con i risultati attesi |
+| `presentazione/slide-apertura.html` | Le slide dell'apertura. Per rivederle: tasto destro sul file nell'esplorazione file dell'IDE, **Download**, poi apritelo nel browser del vostro computer. Si cambia slide con le frecce |
 
 I documenti sono inventati, ma costruiti sui template reali. Quali problemi hanno non è scritto da nessuna parte: trovarli è il lavoro del vostro revisore.
 
